@@ -4,7 +4,7 @@ function [signalOut] = genSound(duration,pitch, harmonics)
 %   content defined by harmonics array
 SAMPLERATE = 44100 ; % standard sample rate
 
-signalOut = zeros([1 duration * SAMPLERATE]) ;
+signalOut = zeros([1 floor(duration * SAMPLERATE)]) ;
 % 
 % normalise harmonics so that sum  is 1 
 harmonics = harmonics / sum(sqrt(harmonics .* harmonics)) ;
@@ -12,7 +12,7 @@ harmonics = harmonics / sum(sqrt(harmonics .* harmonics)) ;
 % signal computation
 for i = 1:length(harmonics)
     signalOut = signalOut + harmonics(i) * ... 
-        sin(2* i * pi * pitch * ([1 : duration * SAMPLERATE] / SAMPLERATE) ) ;
+        sin(2* i * pi * pitch * (1 : floor(duration * SAMPLERATE)) / SAMPLERATE)  ;
 end
 
 end
