@@ -11,6 +11,15 @@ for noteno = 1: length(noteCellList)
 end
 signalout = zeros([1 signallength]) ;
 startsample = 1 ;
+% currently note list (nl) is a cell array, with each cell element being
+% 1: note name
+% 2: duration in beats
+% 3: ADSR array
+% 4: note type: 0 silence, 1 tone, 2 bandlimited noise
+% 5: Harmonic array (relative level of each harmonic) (not currently used
+% in silence)
+% or for bandpass noise, 1st element is fraction of pitch for bandpass
+% 6: level (values are set in setup)
 for noteno = 1:length(noteCellList) % note by note
     switch noteCellList{noteno}{4}
         case 0 % silence
