@@ -4,6 +4,6 @@ function signalout = bandpass_note(lowpass, hipass, duration) ;
 %
 SAMPLERATE = 44100 ;
 % create white noise
-wtnoise = wgn(1, SAMPLERATE * duration,1) ;
+wtnoise = wgn(1, floor(SAMPLERATE * duration),1) ;
 signalout = bandpass_signal(wtnoise,lowpass, hipass) ;
 end

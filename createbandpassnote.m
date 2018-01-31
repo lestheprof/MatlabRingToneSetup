@@ -1,4 +1,4 @@
-function [signalout] = createbandpassnote(notename, duration, bpf_fraction)
+function [signalout] = createbandpassnote(notename, duration, adsr, bpf_fraction)
 %createbandpassnote create a note from white noise, bandpassed 
 % Bandpass is at the pitch
 %associated with the notename, with a bandpass of +/- fraction of that
@@ -11,7 +11,8 @@ bpf_low = pitch*(1 - bpf_fraction/2) ;
 bpf_high = pitch*(1 + bpf_fraction/2) ;
 % and create the signal
 signalout = bandpass_note(bpf_low, bpf_high, duration) ;
-% normalise to max value of 1
-signalout = signalout * (1/max(abs(signalout))) ;
+% normalise to max value of 1 and implement envelope
+signalout = adsr_modulate(signalout * (1/max(abs(signalout))), adsr) ;
+
 end
 
