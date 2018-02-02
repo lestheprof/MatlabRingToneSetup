@@ -15,7 +15,14 @@ function [signalout] = adsr_modulate(signal, adsrdata)
 SAMPLERATE=44100 ;
 % sanity checks
 if ((adsrdata.risetime + adsrdata.decaytime + adsrdata.releasetime) * SAMPLERATE > length(signal))
-    error('adsr_modulate: signal shorter then minimum adsr length') ;
+    % error('adsr_modulate: signal shorter then minimum adsr length') ; not
+    % really an error
+    if ((length(signal) / SAMPLERATE)  >  (adsrdata.risetime + adsrdata.releasetime))
+        % adjust decaytime
+        decaytime = (length(signal) / SAMPLERATE  -  (adsrdata.risetime + adsrdata.releasetime)) ;
+    end
+else
+    decaytime = adsrdata.decaytime ;
 end
 if (adsrdata.riselevel < 1) 
     error('ADSR max level less than sustain level');
@@ -24,7 +31,7 @@ end
 % calculate sample numbers for the peak, sustain start and sustain end
 % (others are 1, length(signal)
 peaksample = floor(adsrdata.risetime * SAMPLERATE) ;
-sustainstartsample = floor(adsrdata.risetime * SAMPLERATE) + floor(adsrdata.decaytime * SAMPLERATE) ;
+sustainstartsample = floor(adsrdata.risetime * SAMPLERATE) + floor(decaytime * SAMPLERATE) ;
 sustainendsample = length(signal) - ceil(adsrdata.releasetime * SAMPLERATE) ;
 % calculate the adsr vector to poitnwise multipy the signal by
 adsrvector = ones([1 length(signal)]) ;
