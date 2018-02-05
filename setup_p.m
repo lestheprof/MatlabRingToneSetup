@@ -24,6 +24,5 @@ levelminus16db = levelminus10db/2 ;
 levelminus20db = levelminus10db/sqrt(10) ;
 
 % note types
-level1 = 1 ;
 notetype1 = 1 ; % harmonics based
 notetype2 = 2 ; % bandpassed noise based
